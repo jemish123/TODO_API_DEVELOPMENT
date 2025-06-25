@@ -1,0 +1,32 @@
+body {
+    background: linear-gradient(to bottom right, #e0eafc, #cfdef3);
+    min-height: 100vh;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.btn-sm {
+    margin-right: 5px;
+}
+
+.form-label {
+    font-weight: 600;
+}
+
+#todo-form .form-control {
+    border-radius: 10px;
+}
+
+.table thead {
+    background-color: #f8f9fa;
+}
+
+.chart-container {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
