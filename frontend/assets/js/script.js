@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000";
+const API_URL = "http://localhost:5000";
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchTodos();
@@ -32,6 +32,8 @@ async function fetchTodos() {
         <td>${todo.title}</td>
         <td>${todo.description || ""}</td>
         <td class="text-capitalize text-center">${todo.status}</td>
+        <td class="text-center">${todo.created_at ? new Date(todo.created_at).toLocaleString() : "-"}</td>
+        <td class="text-center">${todo.completed_at ? new Date(todo.completed_at).toLocaleString() : '-'}</td>
         <td class="text-center">
             <button class="btn btn-success btn-sm" onclick="updateStatus(${todo.id}, 'completed')">✔</button>
             <button class="btn btn-warning btn-sm" onclick="updateStatus(${todo.id}, 'cancelled')">✖</button>
