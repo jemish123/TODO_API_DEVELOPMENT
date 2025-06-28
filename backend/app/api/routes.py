@@ -2,10 +2,11 @@
 from flask import Blueprint, request, jsonify
 from flask_cors import CORS
 from app.models.todo_model import get_all_todos, create_todo, update_todo_status, delete_todo
+from app.utils.stats import get_stats
 
 # Create Blueprint
 todos_bp = Blueprint("todos", __name__)
-CORS(todos_bp, origins=["http://localhost:5500"])  # Allow frontend origin
+CORS(todos_bp, origins=["http://localhost:5500", "http://127.0.0.1:5500"])  # Allow frontend origin
 
 @todos_bp.route("/", methods=["GET"])
 def get_todos():
@@ -37,3 +38,8 @@ def put_todo(todo_id):
 def delete_todo_item(todo_id):
     delete_todo(todo_id)
     return "", 204
+
+@todos_bp.route('/stats', methods=['GET'])
+def get_todo_stats():
+    stats = get_stats()
+    return jsonify(stats), 200

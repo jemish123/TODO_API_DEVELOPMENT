@@ -1,24 +1,26 @@
-const API_URL = "http://localhost:5000";
+const API_URL = "http://127.0.0.1:5000";
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchTodos();
     fetchStats();
-});
 
-document.getElementById("todo-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-
-    await fetch(`${API_URL}/todos/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description })
+    document.getElementById("todo-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+    
+        console.log("------------------", title, description)
+    
+        await fetch(`${API_URL}/todos/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title, description })
+        });
+    
+        document.getElementById("todo-form").reset();
+        fetchTodos();
+        fetchStats();
     });
-
-    document.getElementById("todo-form").reset();
-    fetchTodos();
-    fetchStats();
 });
 
 async function fetchTodos() {
@@ -61,15 +63,19 @@ async function deleteTodo(id) {
 }
 
 async function fetchStats() {
-    const res = await fetch(`${API_URL}/stats/`);
+    console.log({API_URL});
+    const res = await fetch(`${API_URL}/todos/stats`);
     const stats = await res.json();
+    console.log(stats)
     document.getElementById("completed-count").textContent = stats.completed;
     document.getElementById("pending-count").textContent = stats.pending;
     document.getElementById("cancelled-count").textContent = stats.cancelled;
     document.getElementById("avg-time").textContent = `${stats.avg_time} min`;
 
     const ctx = document.getElementById("productivityChart").getContext("2d");
-    if (window.productivityChart) window.productivityChart.destroy();
+    if (window.productivityChart && typeof window.productivityChart.destroy == 'function') {
+        window.productivityChart.destroy();
+    }
     window.productivityChart = new Chart(ctx, {
         type: "doughnut",
         data: {
