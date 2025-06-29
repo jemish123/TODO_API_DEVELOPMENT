@@ -9,8 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const title = document.getElementById("title").value;
         const description = document.getElementById("description").value;
     
-        console.log("------------------", title, description)
-    
         await fetch(`${API_URL}/todos/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -63,10 +61,8 @@ async function deleteTodo(id) {
 }
 
 async function fetchStats() {
-    console.log({API_URL});
     const res = await fetch(`${API_URL}/todos/stats`);
     const stats = await res.json();
-    console.log(stats)
     document.getElementById("completed-count").textContent = stats.completed;
     document.getElementById("pending-count").textContent = stats.pending;
     document.getElementById("cancelled-count").textContent = stats.cancelled;
@@ -77,21 +73,41 @@ async function fetchStats() {
         window.productivityChart.destroy();
     }
     window.productivityChart = new Chart(ctx, {
-        type: "doughnut",
+        type: "doghnut",
         data: {
             labels: ["Completed", "Pending", "Cancelled"],
             datasets: [{
                 label: "Todos",
                 data: [stats.completed, stats.pending, stats.cancelled],
-                backgroundColor: ["#198754", "#ffc107", "#dc3545"]
+                backgroundColor: ["#198754", "#ffc107", "#dc3545"],
+                borderWidth: 1
             }]
         },
         options: {
+            responsive: true,
+            animation: {
+                animateScale: true,
+                animateRotate: true,
+            },
             plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            console.log(context);
+                            const total = context.chart._metasets[0].total;
+                            const value = context.raw;
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${context.label}: ${value} (${percentage}%)`;
+                        }
+                    }
+                },
                 legend: {
-                    position: 'bottom'
+                    position: 'top'
                 }
             }
         }
     });
 }
+
+document.addEventListener("DOMContentLoaded", fetchStats);
+    

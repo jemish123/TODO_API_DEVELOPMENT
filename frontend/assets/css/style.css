@@ -33,3 +33,7 @@ body {
     justify-content: center;
     max-height: 400px;
 }
+
+.chart-toggle {
+    margin-bottom: 10px;
+}

@@ -50,8 +50,15 @@
             </div>
 
             <!-- Chart -->
-             <div class="h-25">
-                <div class="chart-container mb-5">
+             <div class="container py-4">
+                <div class="chart-container mb-4">
+                    <div class="chart-toggle">
+                        <select id="chartTypeSelector" class="form-select">
+                            <option value="bar">Bar Chart</option>
+                            <option value="line">Line Chart</option>
+                            <option value="doghnut" selected>Doghnut Chart</option>
+                        </select>
+                    </div>
                     <canvas id="productivityChart"></canvas>
                 </div>
              </div>
